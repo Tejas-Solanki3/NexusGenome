@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased transition-colors duration-300;
+  }
+}
+
+/* Custom scrollbars - minimal and subtle */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 120, 0.15);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 120, 0.3);
+}
+
+/* Subtly moving DNA nucleotide scanner overlay */
+@keyframes scanning-laser {
+  0% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.scanner-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner-overlay::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FFD600, transparent);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: scanning-laser 5s infinite linear;
+}
+
+/* Subtle micro-glows */
+.premium-glow-yellow {
+  box-shadow: 0 4px 20px rgba(255, 214, 0, 0.08);
+}
+
+.premium-glow-yellow-hover:hover {
+  box-shadow: 0 6px 24px rgba(255, 214, 0, 0.12);
+}
+
+/* Blinking terminal cursor */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.cli-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background-color: currentColor;
+  animation: blink-cursor 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+
+/* Smooth animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fade-in-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

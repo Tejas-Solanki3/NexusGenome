@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # 1. The Database Service
+  mongodb:
+    image: mongo:6.0
+    container_name: nexusgenome-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - nexus-network
+
+  # 2. The Node/Express API Service
+  backend:
+    build: 
+      context: ./nexusgenome-backend
+      dockerfile: Dockerfile
+    container_name: nexusgenome-api
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - MONGO_HOST=mongodb # This magically overrides your local .env file!
+    depends_on:
+      - mongodb
+    networks:
+      - nexus-network
+
+  # 3. The React/Vite Frontend Service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nexusgenome-ui
+    ports:
+      - "8080:80" # Maps port 8080 on your laptop to port 80 inside the Nginx container
+    depends_on:
+      - backend
+    networks:
+      - nexus-network
+
+# Define persistent storage so database data survives restarts
+volumes:
+  mongo_data:
+
+# Define an isolated network for security
+networks:
+  nexus-network:
+    driver: bridge
