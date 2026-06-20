@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexusgenome-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nexusgenome-api
+  template:
+    metadata:
+      labels:
+        app: nexusgenome-api
+    spec:
+      containers:
+      - name: api
+        # REPLACE 'your-dockerhub-username' WITH YOUR ACTUAL DOCKER HUB ID
+        image: tejassolanki3/nexusgenome-api:latest
+        ports:
+        - containerPort: 5001
+        env:
+        - name: MONGO_HOST
+          value: "mongodb-service" # This perfectly links to our DB service above!
+        resources:
+          requests:
+            cpu: "200m"
+          limits:
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: nexusgenome-api
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001
+---
+# The Auto-Scaler for the Chaos Engineering Test
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nexusgenome-api
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
