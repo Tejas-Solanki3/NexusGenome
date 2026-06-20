@@ -15,7 +15,7 @@ spec:
       containers:
       - name: api
         # REPLACE 'your-dockerhub-username' WITH YOUR ACTUAL DOCKER HUB ID
-        image: tejassolanki3/nexusgenome-api:latest
+        image: tejas3006/nexusgenome-api:latest
         ports:
         - containerPort: 5001
         env:

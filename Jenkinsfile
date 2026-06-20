@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         // Defines where Docker images are stored
-        DOCKER_REGISTRY = 'nexusgenome-registry'
+        DOCKER_REGISTRY = 'tejas3006'
         APP_NAME = 'nexusgenome'
         
         // Simulating HashiCorp Vault Secret Management for the exam

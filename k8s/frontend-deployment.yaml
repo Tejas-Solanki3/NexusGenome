@@ -15,7 +15,7 @@ spec:
       containers:
       - name: frontend
         # REPLACE 'your-dockerhub-username' WITH YOUR ACTUAL DOCKER HUB ID
-        image: tejassolanki3/nexusgenome-ui:latest
+        image: tejas3006/nexusgenome-ui:latest
         ports:
         - containerPort: 80
 ---
